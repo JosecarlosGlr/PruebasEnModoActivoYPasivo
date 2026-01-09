@@ -19,6 +19,7 @@ Ya tengo la conexión activa hecha
 vuelvo a realizar una conexión al servidor nuevamente con anonymous pero forzando entrar de modo pasivo
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/7.png)  
+
 Ya tengo la conexión pasiva hecha, además filezilla client me ha permitido trabajar con ambos a la vez porque te da la opción de abrir la nueva conexión en otra ventana
 
 ### Análisis: ¿Qué modo funciona mejor en redes con Firewall?
