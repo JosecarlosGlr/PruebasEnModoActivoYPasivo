@@ -10,7 +10,7 @@ Lo primero que hago es configurar el rango de los puertos pasivos
 
 Aqui voy a realizar una conexión al servidor nuevamente con anonymous pero forzando entrar de modo activo
 
-![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/4.png)
+![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/4.png)  
 Ya tengo la conexión activa hecha
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/5.png)
@@ -18,7 +18,7 @@ Ya tengo la conexión activa hecha
 
 vuelvo a realizar una conexión al servidor nuevamente con anonymous pero forzando entrar de modo pasivo
 
-![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/7.png)
+![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/7.png)  
 Ya tengo la conexión pasiva hecha, además filezilla client me ha permitido trabajar con ambos a la vez porque te da la opción de abrir la nueva conexión en otra ventana
 
 ### Análisis: ¿Qué modo funciona mejor en redes con Firewall?
