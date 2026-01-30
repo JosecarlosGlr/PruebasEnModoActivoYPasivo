@@ -1,40 +1,42 @@
 # Pruebas en modo activo y pasivo
 
-
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/1.png)
 
-Lo primero que hago es configurar el rango de los puertos pasivos
+Lo primero que hago es configurar el rango de los puertos pasivos en el servidor. He definido un rango personalizado que va desde el puerto **50000** hasta el **50100** para gestionar las conexiones de datos entrantes.
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/2.png)
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/3.png)
 
-Aqui voy a realizar una conexión al servidor nuevamente con anonymous pero forzando entrar de modo activo
+Para realizar la primera prueba, configuro el cliente FileZilla forzando el modo de transferencia en **Activo**. Utilizo el usuario `anonymous` y me aseguro de que el protocolo esté configurado como FTP sobre TLS.
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/4.png)  
-Ya tengo la conexión activa hecha
+
+Como se observa en el log del cliente, la conexión en **modo activo** se ha establecido correctamente, permitiendo el listado del directorio tras el intercambio de certificados TLS.
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/5.png)
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/6.png)
 
-vuelvo a realizar una conexión al servidor nuevamente con anonymous pero forzando entrar de modo pasivo
+A continuación, repito el proceso pero forzando el modo de transferencia en **Pasivo**. En esta configuración, el cliente solicitará al servidor que abra un puerto dentro del rango (50000-50100) que definimos anteriormente.
 
 ![](https://raw.githubusercontent.com/JosecarlosGlr/PruebasEnModoActivoYPasivo/refs/heads/main/7.png)  
 
-Ya tengo la conexión pasiva hecha, además filezilla client me ha permitido trabajar con ambos a la vez porque te da la opción de abrir la nueva conexión en otra ventana
+La conexión en **modo pasivo** también funciona con éxito. FileZilla Client me ha permitido mantener ambas sesiones abiertas simultáneamente en pestañas separadas, facilitando la comparativa técnica entre ambos métodos.
+
+---
 
 ### Análisis: ¿Qué modo funciona mejor en redes con Firewall?
 
-Yo realmente no he notado diferencia entre realizar la conexión en modo pasivo o activo, pero según me he informado el **Modo Pasivo** es el que funciona mejor en la mayoría de las redes actuales.
+En este entorno de pruebas local ambos han funcionado, pero en un entorno real el **Modo Pasivo** es el estándar más fiable.
 
 **¿Por qué?**
-Hoy en día, casi todos los usuarios están detrás de un router (**NAT**) o un firewall personal (como Windows Defender) que bloquea las conexiones que vienen "de fuera" sin previo aviso.
+La mayoría de redes actuales utilizan **NAT** y firewalls que bloquean por defecto cualquier conexión iniciada desde el exterior.
 
-* **En el modo Activo:** El servidor intenta "llamar" al cliente, pero el firewall del cliente suele bloquear esta conexión entrante ("le cuelga la llamada").
-* **En el modo Pasivo:** Es el **cliente** quien inicia la conexión hacia el servidor. Como los firewalls suelen permitir todo el tráfico de salida por defecto, la conexión se establece sin problemas.
+* **Modo Activo:** El servidor intenta iniciar la conexión de datos hacia el cliente. El firewall del cliente suele interpretar esto como una intrusión y bloquea la conexión.
+* **Modo Pasivo:** El cliente inicia tanto el canal de control como el de datos. Como los firewalls permiten el tráfico de salida por defecto, la conexión suele establecerse sin necesidad de configurar el router del cliente.
 
 | Característica | Modo Activo | Modo Pasivo |
 | :--- | :--- | :--- |
-| **Quién inicia la conexión de datos** | El **Servidor** se conecta al Cliente. | El **Cliente** se conecta al Servidor. |
-| **Comportamiento con Firewall (Cliente)** | Suele fallar. El firewall del cliente bloquea la conexión entrante del servidor. | **Funciona bien.** El firewall suele permitir la salida del cliente hacia el servidor. |
-| **Configuración necesaria** | Requiere abrir puertos en el lado del cliente (algo difícil de gestionar). | Requiere abrir un rango de puertos en el lado del servidor (lo que hicimos con el 50000-50100). |
-| **Uso recomendado** | Redes internas muy controladas o antiguas. | **Internet y redes modernas (NAT).** Es el estándar actual. |
+| **Inicio de datos** | El Servidor conecta al Cliente. | El Cliente conecta al Servidor. |
+| **Firewall (Cliente)** | Suele fallar al bloquear la entrada. | **Funciona correctamente** (tráfico de salida). |
+| **Configuración** | Requiere abrir puertos en el cliente. | Requiere abrir un rango en el servidor (50000-50100). |
+| **Uso actual** | Redes locales o antiguas. | **Estándar en Internet y NAT.** |
